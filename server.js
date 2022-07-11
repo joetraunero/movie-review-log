@@ -7,7 +7,7 @@ require('dotenv').config()
 
 let db,
     dbConnectionStr = 'mongodb+srv://joetraun:fitbit@cluster0.bjgf3.mongodb.net/?retryWrites=true&w=majority'
-    dbName = 'Cluster0'
+    dbName = 'movie-ratings'
 
 MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
     .then(client => {
@@ -22,7 +22,7 @@ app.use(express.json())
 
 
 app.get('/',(request, response)=>{
-    db.collection('cluster0').find().sort({likes: -1}).toArray()
+    db.collection('Cluster0').find().sort({rating: -1}).toArray()
     .then(data => {
         response.render('index.ejs', { info: data })
     })
@@ -30,8 +30,8 @@ app.get('/',(request, response)=>{
 })
 
 app.post('/addMovie', (request, response) => {
-    db.collection('Cluster0').insertOne({movieTitle: request.body.movieTitle,
-    rating: request.body.rating, likes: 0})
+    db.collection('Cluster0').insertOne({'movieTitle': request.body.movieTitle,
+    'rating': request.body.rating, likes: 0})
     .then(result => {
         console.log('Movie Added')
         response.redirect('/')
