@@ -22,6 +22,7 @@ app.use(express.json())
 
 
 app.get('/',(request, response)=>{
+    //finish sort
     db.collection('Cluster0').find().sort({rating: -1}).toArray()
     .then(data => {
         response.render('index.ejs', { info: data })
@@ -40,7 +41,7 @@ app.post('/addMovie', (request, response) => {
 })
 
 app.put('/addOneLike', (request, response) => {
-    db.collection('Cluster0').updateOne({stageName: request.body.stageNameS, birthName: request.body.birthNameS,likes: request.body.likesS},{
+    db.collection('Cluster0').updateOne({movieTitle: request.body.movieTitle, rating: request.body.rating, likes: request.body.likesS},{
         $set: {
             likes:request.body.likesS + 1
           }
